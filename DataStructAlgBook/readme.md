@@ -4,6 +4,7 @@
 * c3: Foward Linked List, Stacks, Queues, and Double Linked List
 * c4: Linear Search and Binary Search
 * c6: QuadTree and BinaryTree
+* c7: BinarySearchTree
 
 
 ## Computational Complexity
