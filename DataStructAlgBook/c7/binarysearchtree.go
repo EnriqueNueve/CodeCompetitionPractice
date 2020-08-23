@@ -27,6 +27,12 @@ func root(tree *BinaryTreeNode) int {
 	return tree.Val
 }
 
+// Place LeafNode on tree. LeafNode has a nil left and right pointer.
+func Leaf(val int) *BinaryTreeNode {
+	leaf := BinaryTreeNode{Val: val, Left: nil, Right: nil}
+	return &leaf
+}
+
 // prints out a visual of the tree
 // function obtained from: https://flaviocopes.com/
 // golang-data-structure-binary-search-tree/
@@ -114,6 +120,7 @@ func isIn(val int, tree *BinaryTreeNode) bool {
 	}
 }
 
+// delete node from binary tree
 func delete(val int, tree *BinaryTreeNode) *BinaryTreeNode {
 	if isEmpty(tree) {
 		fmt.Println("Tree is empty, no node to delete.")
@@ -135,6 +142,7 @@ func delete(val int, tree *BinaryTreeNode) *BinaryTreeNode {
 	}
 }
 
+// helper function for delete()
 func smallestNode(tree *BinaryTreeNode) int {
 	if isEmpty(left(tree)) {
 		return root(tree)
@@ -145,6 +153,7 @@ func smallestNode(tree *BinaryTreeNode) int {
 	return tree.Val
 }
 
+// helper function for delete()
 func removeSmallestNode(tree *BinaryTreeNode) *BinaryTreeNode {
 	if isEmpty(left(tree)) {
 		return right(tree)
@@ -153,10 +162,56 @@ func removeSmallestNode(tree *BinaryTreeNode) *BinaryTreeNode {
 	}
 }
 
+// check if binary tree is a binary search tree
+func isbst(tree *BinaryTreeNode) bool {
+	if isEmpty(tree) {
+		return true
+	} else {
+		c1 := allsmaller(root(tree), left(tree)) == true && isbst(left(tree)) == true
+		c2 := allbigger(root(tree), right(tree)) == true && isbst(right(tree)) == true
+		return c1 == true && c2 == true
+	}
+}
+
+// helper function for isbst()
+func allsmaller(val int, tree *BinaryTreeNode) bool {
+	if isEmpty(tree) {
+		return true
+	} else {
+		c1 := (root(tree) < val) == true && allsmaller(val, left(tree)) == true
+		return c1 == true && allsmaller(val, right(tree)) == true
+	}
+}
+
+// helper function for isbst()
+func allbigger(val int, tree *BinaryTreeNode) bool {
+	if isEmpty(tree) {
+		return true
+	} else {
+		c1 := (root(tree) > val) == true && allbigger(val, left(tree))
+		c2 := true && allbigger(val, right(tree)) == true
+		return c1 == true && c2 == true
+	}
+}
+
 func main() {
 
 	tree := MakeTree(10, EmptyTree(), EmptyTree())
 	tree = insert(11, insert(13, insert(6, insert(12, insert(8, tree)))))
+
+	// check if tree is a binary search tree
+	fmt.Println("Is tree a binary search tree? ", isbst(tree))
+	printTree(tree, 4)
+	fmt.Println("------------------------------------------------------")
+
+	print()
+
+	not_bst := MakeTree(10, Leaf(12), Leaf(8))
+	fmt.Println("Is tree a binary search tree? ", isbst(not_bst))
+	printTree(not_bst, 3)
+	fmt.Println("------------------------------------------------------")
+
+	print()
 
 	// one branch down
 	fmt.Println(tree.Left.Val)
