@@ -194,6 +194,15 @@ func allbigger(val int, tree *BinaryTreeNode) bool {
 	}
 }
 
+// method to print tree values in ascending order
+func printInOrder(tree *BinaryTreeNode) {
+	if isEmpty(tree) == false {
+		printInOrder(left(tree))
+		fmt.Println(root(tree))
+		printInOrder(right(tree))
+	}
+}
+
 func main() {
 
 	tree := MakeTree(10, EmptyTree(), EmptyTree())
@@ -222,6 +231,10 @@ func main() {
 	fmt.Println(tree.Left.Left.Val)
 	fmt.Println(tree.Right.Right.Val)
 	fmt.Println(tree.Right.Left.Val)
+	fmt.Println()
+
+	// print values in tree in ascending order
+	printInOrder(tree)
 	fmt.Println()
 
 	// check if value is in tree
