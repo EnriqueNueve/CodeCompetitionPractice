@@ -17,13 +17,13 @@ type EmptyNode struct {
 	E *BinaryTreeNode
 }
 
-// Dummy function to create dead branch.
+// Dummy function to create dead branch
 func EmptyTree() *BinaryTreeNode {
 	temp := EmptyNode{}
 	return temp.E
 }
 
-// Creates node with value and two pointers- left and right.
+// Creates node with value and two pointers: left and right
 func MakeTree(val int, left *BinaryTreeNode, right *BinaryTreeNode) *BinaryTreeNode {
 	parent := BinaryTreeNode{Val: val, Left: left, Right: right}
 	return &parent
@@ -45,25 +45,24 @@ func root(tree *BinaryTreeNode) (int, error) {
 
 // Get pointer of left node of relative parent node
 func left(tree *BinaryTreeNode) *BinaryTreeNode {
-	left_t := tree.Left // get left pointer from parent node
+	left_t := tree.Left
 	if left_t == nil {
 		fmt.Println("WARNING: left tree is empty!")
 	}
 	return left_t
 }
 
-// Get pointer of right node of relative parent node
+// Get pointer of right node of relative partent node
 func right(tree *BinaryTreeNode) *BinaryTreeNode {
-	right_t := tree.Right // get right pointer from parent node
+	right_t := tree.Right
 	if right_t == nil {
 		fmt.Println("WARNING: right tree is empty!")
 	}
 	return right_t
 }
 
-// Check if tree pointer is empty
+// Check if tree pointer is nil
 func isEmpty(tree *BinaryTreeNode) bool {
-	// Check if empty pointer from EmptyTree()
 	if tree == nil {
 		return true
 	} else {
@@ -82,9 +81,22 @@ func size(tree *BinaryTreeNode) int {
 	return counter
 }
 
+func height(tree *BinaryTreeNode) int {
+	if isEmpty(tree) {
+		return 0
+	}
+	if isEmpty(left(tree)) == true && isEmpty(right(tree)) == true {
+		return 1
+	} else {
+		return height(left(tree)) + height(right(tree))
+	}
+}
+
 func main() {
 	// MakeTree returns pointer to BinaryTreeNode struct
-	tree := MakeTree(1, MakeTree(2, EmptyTree(), Leaf(3)), MakeTree(4, Leaf(5), Leaf(6)))
+	//tree := MakeTree(1, MakeTree(2, EmptyTree(), Leaf(3)), MakeTree(4, Leaf(5), Leaf(6)))
+  tree := MakeTree(1, EmptyTree(),EmptyTree())
+
 
 	// test root()
 	// test 1
@@ -103,14 +115,16 @@ func main() {
 	fmt.Println("Root value of the tree: ", root_val, "\n")
 
 	// test left()
-	fmt.Println(left(left(tree)), "\n")
+	fmt.Println(left(tree), "\n")
 
 	// test size()
 	fmt.Println("Size of tree: ", size(tree), "\n")
 
+  // test height
+  fmt.Println("Height of tree: ",height(tree), "\n")
+
 	// test isEmpty()
 	fmt.Println(isEmpty(EmptyTree()))
-	fmt.Println(isEmpty(tree.Left.Left))
-	fmt.Println(isEmpty(tree.Left.Right), "\n")
-
+	fmt.Println(isEmpty(tree.Left))
+	fmt.Println(isEmpty(tree.Right), "\n")
 }
