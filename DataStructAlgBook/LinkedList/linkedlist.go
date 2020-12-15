@@ -1,13 +1,4 @@
-package main
-
-/*
-LinkedListNode, struct
-MakeList, function
-isEmtpy, method
-getLen, function
-insert, method
-printLinkedList, function
-*/
+package linkedlist
 
 import (
 	"fmt"
@@ -52,6 +43,21 @@ func getLen(node *LinkedListNode) int {
 	return counter - 1
 }
 
+func isIn(node *LinkedListNode, val int) bool {
+	if node.isEmpty() == true {
+		fmt.Println("Empty linked list passed, value not in.")
+		return false
+	} else {
+		for node != nil {
+			if node.Val == val {
+				return true
+			}
+			node = node.Next
+		}
+	}
+	return false
+}
+
 // Add value at the end of the LinkedList
 func (node *LinkedListNode) insert(val int) *LinkedListNode {
 	head := node
@@ -64,12 +70,12 @@ func (node *LinkedListNode) insert(val int) *LinkedListNode {
 }
 
 // Method to view all values of LinkedList
-func printLinkedList(node *LinkedListNode){
+func printLinkedList(node *LinkedListNode) {
 	for node != nil {
 		if node.Next != nil {
-			fmt.Print("[",node.Val,"] -> ")
+			fmt.Print("[", node.Val, "] -> ")
 		} else {
-			fmt.Print("[",node.Val,"]")
+			fmt.Print("[", node.Val, "]")
 		}
 		node = node.Next
 	}
@@ -77,35 +83,25 @@ func printLinkedList(node *LinkedListNode){
 }
 
 func (node *LinkedListNode) reverse() *LinkedListNode {
-  length_ll := getLen(node)
+	length_ll := getLen(node)
 
-  if length_ll > 1 {
-    temp_pointerA := node
-    temp_pointerB := new(LinkedListNode)
-    head := node
+	if length_ll > 1 {
+		temp_pointerA := node
+		temp_pointerB := new(LinkedListNode)
+		head := node
 
-    node = node.Next
-    for i := 0; i < length_ll -1; i++ {
-      temp_pointerB = node.Next
-      node.Next = temp_pointerA
-      temp_pointerA = node
-      if i < length_ll - 2 {
-        node = temp_pointerB
-      }
-    }
-    head.Next = nil
-    return node
-  } else {
-    return node
-  }
-}
-
-func main() {
-	ll := MakeList(3, MakeList(2, MakeList(1, &LinkedListNode{})))
-	ll.insert(4).insert(5)
-	printLinkedList(ll)
-	fmt.Println("Len of linked list: ", getLen(ll))
-	fmt.Println("Is linked list empty: ", ll.isEmpty())
-	ll = ll.reverse()
-	printLinkedList(ll)
+		node = node.Next
+		for i := 0; i < length_ll-1; i++ {
+			temp_pointerB = node.Next
+			node.Next = temp_pointerA
+			temp_pointerA = node
+			if i < length_ll-2 {
+				node = temp_pointerB
+			}
+		}
+		head.Next = nil
+		return node
+	} else {
+		return node
+	}
 }
